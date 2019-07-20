@@ -1,6 +1,8 @@
+import { GetUsers } from './../../actions/user.actions';
+import { Store } from '@ngxs/store';
+import { UserFormComponent } from './../../dumb/user-form/user-form.component';
 import { User } from './../../../shared/models/User';
-import { UserService } from './../../../components/services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,8 @@ export class HomeComponent implements OnInit{
 
   users: User[] = [];
 
-  constructor(private userService: UserService) {}
+  selectedUser: User;
+  constructor(private store: Store) {}
    
 
    ngOnInit(){
@@ -20,10 +23,9 @@ export class HomeComponent implements OnInit{
    }
 
    getUsers() {
-     this.users = this.userService.getUsers();
+      this.store.dispatch(new GetUsers).subscribe((data) => {});
    }
-
-   
+  
    submitValue(user) {
      console.log(user);
    }
